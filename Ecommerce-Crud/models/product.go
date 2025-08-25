@@ -29,10 +29,19 @@ func UpdateProduct(id uint, updated Product) (*Product, error) {
 	if err := config.DB.First(&product, id).Error; err != nil {
 		return nil, err
 	}
-	product.Name = updated.Name
-	product.Description = updated.Description
-	product.Price = updated.Price
-	product.Quantity = updated.Quantity
+	if updated.Name != "" {
+		product.Name = updated.Name
+	}
+	if updated.Description != "" {
+		product.Description = updated.Description
+	}
+	if updated.Price != 0 {
+		product.Price = updated.Price
+	}
+	if updated.Quantity != 0 {
+		product.Quantity = updated.Quantity
+	}
+
 	config.DB.Save(&product)
 	return &product, nil
 
